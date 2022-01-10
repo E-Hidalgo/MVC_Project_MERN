@@ -7,6 +7,8 @@ import { PORT } from "./config";
 //? CREATE SERVER
 const app = express();
 
+app.use(express.json());
+
 //? ROUTES
 app.use("/", routes);
 //? SERVER PORT
