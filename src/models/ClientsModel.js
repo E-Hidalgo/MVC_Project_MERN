@@ -1,8 +1,6 @@
-import mongoose from "mongoose";
+import { Schema, model } from "mongoose";
 
-const Schema = moongose.Schema;
-
-const clientSchema = new Schema({
+const clientsSchema = new Schema({
   name: {
     type: String,
     trim: true,
@@ -27,4 +25,4 @@ const clientSchema = new Schema({
   },
 });
 
-export default mongoose.model("ClientsModel", clientSchema);
+export default model("ClientsModel", clientsSchema);
