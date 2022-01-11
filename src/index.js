@@ -1,12 +1,19 @@
 import express from "express";
-import routes from "./routes";
+import clientsRouter from "./routes/clients.routes";
+import productsRouter from "./routes/products.routes";
+import "./DB";
+import "./config";
+import { PORT } from "./config";
 
 //? CREATE SERVER
 const app = express();
 
+app.use(express.json());
+
 //? ROUTES
-app.use("/", routes);
+app.use("/api/clients", clientsRouter);
+app.use("/api/products", productsRouter);
 //? SERVER PORT
-app.listen(4000, () => {
-  console.log(`Server listening on http:localhost:4000`);
+app.listen(PORT, () => {
+  console.log(`Server listening on http:localhost:${PORT}`);
 });
