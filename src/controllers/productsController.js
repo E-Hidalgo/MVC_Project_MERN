@@ -1,5 +1,6 @@
 import ProductsModel from "../models/ProductsModel.js";
-import { upload } from "../config/multerConfig.js";
+import upload from "../config/multerConfig.js";
+
 /**
  * This function add products to the database
  * @param {*} req request  {body}
@@ -40,7 +41,7 @@ export const uploadImage = (req, res, next) => {
 /**
  * This function get all products in the database
  * @param {*} req
- * @param {*} res
+ * @param {*} res response {json}
  * @param {*} next
  */
 export const getProduct = async (req, res, next) => {
@@ -55,8 +56,8 @@ export const getProduct = async (req, res, next) => {
 
 /**
  * This function get a product by Id from the database
- * @param {*} req
- * @param {*} res
+ * @param {*} req request  {params}
+ * @param {*} res response {json}
  * @param {*} next
  */
 export const getProductById = async (req, res, next) => {
@@ -102,5 +103,26 @@ export const deleteProduct = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     next();
+  }
+};
+
+/**
+ * This function uploads a product image
+ * @param {*} req request  {params}
+ * @param {*} res response {json}
+ * @param {*} next
+ */
+
+export const uploadImage = (req, res, next) => {
+  try {
+    upload(req, res, function (error) {
+      if (error) {
+        res.json({ message: error });
+      } else {
+        return next();
+      }
+    });
+  } catch (error) {
+    console.log(error);
   }
 };

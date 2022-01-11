@@ -20,4 +20,6 @@ const multerConfig = {
   },
 };
 
-export const upload = multer(multerConfig).single("image");
+const upload = multer(multerConfig).single("image");
+
+export default upload;

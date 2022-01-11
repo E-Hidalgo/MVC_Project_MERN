@@ -9,7 +9,7 @@ import {
 } from "../controllers/productsController";
 const productsRouter = Router();
 
-//? CREATE NEW CLIENT
+//? CREATE NEW PRODUCT
 productsRouter.post("/", uploadImage, addProduct);
 
 //? GET ALL productS
