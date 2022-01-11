@@ -1,5 +1,5 @@
 import ProductsModel from "../models/ProductsModel.js";
-import multerConfig from "../config/multerConfig";
+import upload from "../config/multerConfig.js"
 
 /**
  * This function add products to the database
@@ -98,10 +98,18 @@ export const deleteProduct = async (req, res, next) => {
  * @param {*} next
  */
 
-export const uploadImage = async (req, res, next) => {
-  const upload = multer(multerConfig).single("image")
+export const uploadImage = (req, res, next) => {
+  try {
+    upload(req, res, function (error) {
+      if (error) {
+        res.json({ message: error })
+      } else {
+        return next();
 
-  upload(req, res, function (error) {
-    return error ? res.json({ message: error }) : next();
-  })
+      }
+    })
+  } catch (error) {
+    console.log(error)
+  }
+
 }

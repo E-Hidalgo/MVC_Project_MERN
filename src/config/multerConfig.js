@@ -1,10 +1,11 @@
 import multer from "multer";
 import shortid from "shortid";
 
-export const multerConfig = {
+
+const multerConfig = {
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, __dirname + "../../uploads")
+      cb(null, __dirname + "../../../uploads")
     },
     filename: (req, file, cb) => {
       const extension = file.mimetype.split("/")[1]
@@ -19,4 +20,8 @@ export const multerConfig = {
     }
   },
 }
+
+const upload = multer(multerConfig).single("image")
+
+export default upload;
 
