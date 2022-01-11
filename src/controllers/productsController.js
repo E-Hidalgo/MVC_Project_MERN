@@ -77,7 +77,6 @@ export const updateProduct = async (req, res, next) => {
  */
 export const deleteProduct = async (req, res, next) => {
   try {
-    console.log(req.params.productId);
     await ProductsModel.findByIdAndDelete(req.params.productId);
     res.json({ message: "Deleted!" });
   } catch (error) {
