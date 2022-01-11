@@ -1,4 +1,4 @@
-import ClientsModel from "../models/ClientsModel.js";
+import Clients from "../models/Clients.js";
 /**
  * This function add clients to the database
  * @param {*} req request  {body}
@@ -8,7 +8,7 @@ import ClientsModel from "../models/ClientsModel.js";
 export const addClient = async (req, res, next) => {
   try {
     const { name, lastName, company, email, phoneNumber } = req.body;
-    const newClient = new ClientsModel({
+    const newClient = new Clients({
       name,
       lastName,
       company,
@@ -31,7 +31,7 @@ export const addClient = async (req, res, next) => {
  */
 export const getClient = async (req, res, next) => {
   try {
-    const clients = await ClientsModel.find();
+    const clients = await Clients.find();
     res.json(clients);
   } catch (error) {
     console.log(error);
@@ -47,7 +47,7 @@ export const getClient = async (req, res, next) => {
  */
 export const getClientById = async (req, res, next) => {
   try {
-    const client = await ClientsModel.findById(req.params.clientId);
+    const client = await Clients.findById(req.params.clientId);
     client ? res.json(client) : res.json({ message: "Client not found" });
   } catch (error) {
     console.log(error);
@@ -63,7 +63,7 @@ export const getClientById = async (req, res, next) => {
  */
 export const updateClient = async (req, res, next) => {
   try {
-    const client = await ClientsModel.findByIdAndUpdate(
+    const client = await Clients.findByIdAndUpdate(
       req.params.clientId,
       req.body,
       { new: true }
@@ -83,7 +83,7 @@ export const updateClient = async (req, res, next) => {
  */
 export const deleteClient = async (req, res, next) => {
   try {
-    await ClientsModel.findByIdAndDelete(req.params.clientId);
+    await Clients.findByIdAndDelete(req.params.clientId);
     res.json({ message: "Deleted!" });
   } catch (error) {
     console.log(error);

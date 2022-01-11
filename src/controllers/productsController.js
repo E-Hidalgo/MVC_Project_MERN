@@ -1,4 +1,4 @@
-import ProductsModel from "../models/ProductsModel.js";
+import Products from "../models/Products.js";
 import upload from "../config/multerConfig.js";
 
 /**
@@ -10,7 +10,7 @@ import upload from "../config/multerConfig.js";
 export const addProduct = async (req, res, next) => {
   try {
     const { name, description, price, image } = req.body;
-    const newProduct = new ProductsModel({ name, description, price, image });
+    const newProduct = new Products({ name, description, price, image });
     if (req.file.filename) {
       newProduct.image = req.file.filename;
     }
@@ -46,7 +46,7 @@ export const uploadImage = (req, res, next) => {
  */
 export const getProduct = async (req, res, next) => {
   try {
-    const products = await ProductsModel.find();
+    const products = await Products.find();
     res.json(products);
   } catch (error) {
     console.log(error);
@@ -62,7 +62,7 @@ export const getProduct = async (req, res, next) => {
  */
 export const getProductById = async (req, res, next) => {
   try {
-    const product = await ProductsModel.findById(req.params.productId);
+    const product = await Products.findById(req.params.productId);
     product ? res.json(product) : res.json({ message: "product not found" });
   } catch (error) {
     console.log(error);
@@ -78,7 +78,7 @@ export const getProductById = async (req, res, next) => {
  */
 export const updateProduct = async (req, res, next) => {
   try {
-    const product = await ProductsModel.findByIdAndUpdate(
+    const product = await Products.findByIdAndUpdate(
       req.params.productId,
       req.body,
       { new: true }
@@ -98,7 +98,7 @@ export const updateProduct = async (req, res, next) => {
  */
 export const deleteProduct = async (req, res, next) => {
   try {
-    await ProductsModel.findByIdAndDelete(req.params.productId);
+    await Products.findByIdAndDelete(req.params.productId);
     res.json({ message: "Deleted!" });
   } catch (error) {
     console.log(error);
@@ -112,17 +112,3 @@ export const deleteProduct = async (req, res, next) => {
  * @param {*} res response {json}
  * @param {*} next
  */
-
-export const uploadImage = (req, res, next) => {
-  try {
-    upload(req, res, function (error) {
-      if (error) {
-        res.json({ message: error });
-      } else {
-        return next();
-      }
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
