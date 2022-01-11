@@ -1,4 +1,6 @@
 import ProductsModel from "../models/ProductsModel.js";
+import multerConfig from "../config/multerConfig";
+
 /**
  * This function add products to the database
  * @param {*} req request  {body}
@@ -9,6 +11,9 @@ export const addProduct = async (req, res, next) => {
   try {
     const { name, description, price, image } = req.body;
     const newProduct = new ProductsModel({ name, description, price, image });
+    if (req.file.filename) {
+      newProduct.image = req.file.filename
+    }
     await newProduct.save();
     res.json({ message: "Added!" });
   } catch (error) {
@@ -19,8 +24,8 @@ export const addProduct = async (req, res, next) => {
 
 /**
  * This function get all products in the database
- * @param {*} req
- * @param {*} res
+ * @param {*} req 
+ * @param {*} res response {json}
  * @param {*} next
  */
 export const getProduct = async (req, res, next) => {
@@ -35,8 +40,8 @@ export const getProduct = async (req, res, next) => {
 
 /**
  * This function get a product by Id from the database
- * @param {*} req
- * @param {*} res
+ * @param {*} req request  {params}
+ * @param {*} res response {json}
  * @param {*} next
  */
 export const getProductById = async (req, res, next) => {
@@ -84,3 +89,19 @@ export const deleteProduct = async (req, res, next) => {
     next();
   }
 };
+
+
+/**
+ * This function uploads a product image
+ * @param {*} req request  {params}
+ * @param {*} res response {json}
+ * @param {*} next
+ */
+
+export const uploadImage = async (req, res, next) => {
+  const upload = multer(multerConfig).single("image")
+
+  upload(req, res, function (error) {
+    return error ? res.json({ message: error }) : next();
+  })
+}

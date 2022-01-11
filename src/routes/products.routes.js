@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  uploadImage,
   addProduct,
   getProduct,
   getProductById,
@@ -8,8 +9,10 @@ import {
 } from "../controllers/productsController";
 const productsRouter = Router();
 
-//? CREATE NEW CLIENT
-productsRouter.post("/", addProduct);
+//? CREATE NEW PRODUCT
+productsRouter.post("/",
+  uploadImage,
+  addProduct);
 
 //? GET ALL productS
 productsRouter.get("/", getProduct);
