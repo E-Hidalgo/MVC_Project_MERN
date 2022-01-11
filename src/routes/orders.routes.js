@@ -1,8 +1,7 @@
 import { Router } from "express";
 import {
   addOrder,
-  uploadImage,
-  getOrder,
+  getOrders,
   getOrderById,
   updateOrder,
   deleteOrder,
@@ -13,7 +12,7 @@ const ordersRouter = Router();
 ordersRouter.post("/", addOrder);
 
 //? GET ALL orderS
-ordersRouter.get("/", getOrder);
+ordersRouter.get("/", getOrders);
 
 //? GET order BY ID
 ordersRouter.get("/:orderId", getOrderById);

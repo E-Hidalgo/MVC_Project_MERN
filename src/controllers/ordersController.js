@@ -23,9 +23,12 @@ export const addOrder = async (req, res, next) => {
  * @param {*} res response {json}
  * @param {*} next
  */
-export const getOrder = async (req, res, next) => {
+export const getOrders = async (req, res, next) => {
   try {
-    const orders = await Orders.find();
+    const orders = await Orders.find().populate("client").populate({
+      path: "order.product",
+      model: "Products",
+    });
     res.json(orders);
   } catch (error) {
     console.log(error);
@@ -41,8 +44,13 @@ export const getOrder = async (req, res, next) => {
  */
 export const getOrderById = async (req, res, next) => {
   try {
-    const order = await Orders.findById(req.params.orderId);
-    order ? res.json(order) : res.json({ message: "order not found" });
+    const order = await Orders.findById(req.params.orderId)
+      .populate("client")
+      .populate({
+        path: "order.product",
+        model: "Products",
+      });
+    order ? res.json(order) : res.json({ message: "Order not found" });
   } catch (error) {
     console.log(error);
     next();
@@ -59,7 +67,12 @@ export const updateOrder = async (req, res, next) => {
   try {
     const order = await Orders.findByIdAndUpdate(req.params.orderId, req.body, {
       new: true,
-    });
+    })
+      .populate("client")
+      .populate({
+        path: "order.product",
+        model: "Products",
+      });
     res.json(order);
   } catch (error) {
     console.log(error);
