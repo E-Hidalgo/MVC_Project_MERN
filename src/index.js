@@ -1,5 +1,6 @@
 import express from "express";
 import clientsRouter from "./routes/clients.routes";
+import productsRouter from "./routes/products.routes";
 import "./DB";
 import "./config";
 import { PORT } from "./config";
@@ -11,6 +12,7 @@ app.use(express.json());
 
 //? ROUTES
 app.use("/api/clients", clientsRouter);
+app.use("/api/products", productsRouter);
 //? SERVER PORT
 app.listen(PORT, () => {
   console.log(`Server listening on http:localhost:${PORT}`);
