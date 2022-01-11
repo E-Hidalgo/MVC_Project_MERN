@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   addProduct,
+  uploadImage,
   getProduct,
   getProductById,
   updateProduct,
@@ -9,7 +10,7 @@ import {
 const productsRouter = Router();
 
 //? CREATE NEW CLIENT
-productsRouter.post("/", addProduct);
+productsRouter.post("/", uploadImage, addProduct);
 
 //? GET ALL productS
 productsRouter.get("/", getProduct);

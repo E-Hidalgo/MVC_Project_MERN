@@ -1,4 +1,5 @@
 import ProductsModel from "../models/ProductsModel.js";
+import { upload } from "../config/multerConfig.js";
 /**
  * This function add products to the database
  * @param {*} req request  {body}
@@ -9,12 +10,31 @@ export const addProduct = async (req, res, next) => {
   try {
     const { name, description, price, image } = req.body;
     const newProduct = new ProductsModel({ name, description, price, image });
+    if (req.file.filename) {
+      newProduct.image = req.file.filename;
+    }
     await newProduct.save();
     res.json({ message: "Added!" });
   } catch (error) {
     console.log(error);
     next();
   }
+};
+
+/**
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+export const uploadImage = (req, res, next) => {
+  upload(req, res, function (error) {
+    if (error) {
+      res.json({ message: "Something went wrong", error: error });
+    } else {
+      return next();
+    }
+  });
 };
 
 /**
