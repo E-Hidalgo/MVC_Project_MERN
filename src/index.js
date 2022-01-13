@@ -4,16 +4,24 @@ import productsRouter from "./routes/products.routes";
 import ordersRouter from "./routes/orders.routes";
 import "./DB";
 import { PORT } from "./config";
+import cors from "cors";
+import morgan from "morgan";
 
 //? CREATE SERVER
 const app = express();
 
 app.use(express.json());
+app.use(cors());
+app.use(morgan("dev"));
 
 //? ROUTES
 app.use("/api/clients", clientsRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/orders", ordersRouter);
+
+//? PUBLIC FOLDER
+app.use(express.static("uploads"));
+
 //? SERVER PORT
 app.listen(PORT, () => {
   console.log(`Server listening on http:localhost:${PORT}`);
