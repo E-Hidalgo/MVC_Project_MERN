@@ -18,7 +18,7 @@ export const addClient = async (req, res, next) => {
     await newClient.save();
     res.json({ message: "Added!" });
   } catch (error) {
-    console.log(error);
+    res.json({ code: 11000 });
     next();
   }
 };
