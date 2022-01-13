@@ -7,7 +7,6 @@ import { PORT } from "./config";
 import cors from "cors";
 import morgan from "morgan";
 
-import cors from "cors"
 
 //? CREATE SERVER
 const app = express();
