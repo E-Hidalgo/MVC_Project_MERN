@@ -5,10 +5,16 @@ import ordersRouter from "./routes/orders.routes";
 import "./DB";
 import { PORT } from "./config";
 
+import cors from "cors"
+
 //? CREATE SERVER
 const app = express();
 
 app.use(express.json());
+
+//? CORS
+app.use(cors());
+
 
 //? ROUTES
 app.use("/api/clients", clientsRouter);
