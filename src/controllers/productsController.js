@@ -80,6 +80,9 @@ export const getProductById = async (req, res, next) => {
 export const updateProduct = async (req, res, next) => {
   try {
     console.log(req.body);
+    if (req.file.filename) {
+      req.body.image = req.file.filename;
+    }
     const product = await Products.findByIdAndUpdate(
       req.params.productId,
       req.body,
