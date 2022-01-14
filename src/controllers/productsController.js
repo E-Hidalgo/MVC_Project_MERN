@@ -79,10 +79,11 @@ export const getProductById = async (req, res, next) => {
  */
 export const updateProduct = async (req, res, next) => {
   try {
-    console.log(req.body);
-    if (req.file.filename) {
+    console.log(req.file);
+    if (req.file !== undefined && req.file.filename) {
       req.body.image = req.file.filename;
     }
+
     const product = await Products.findByIdAndUpdate(
       req.params.productId,
       req.body,
@@ -104,6 +105,7 @@ export const updateProduct = async (req, res, next) => {
 export const deleteProduct = async (req, res, next) => {
   try {
     await Products.findByIdAndDelete(req.params.productId);
+    //todo implement DELETE IMAGES TOO
     res.json({ message: "Deleted!" });
   } catch (error) {
     console.log(error);
