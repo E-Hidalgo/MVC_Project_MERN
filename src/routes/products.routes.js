@@ -23,7 +23,7 @@ productsRouter.get("/:productId", getProductById);
 productsRouter.post("/:query", searchProduct);
 
 //? UPDATE product BY ID
-productsRouter.put("/:productId", updateProduct);
+productsRouter.put("/:productId", uploadImage, updateProduct);
 
 //? DELETE product BY ID
 productsRouter.delete("/:productId", deleteProduct);
