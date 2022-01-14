@@ -9,7 +9,7 @@ import upload from "../config/multerConfig.js";
  */
 export const addProduct = async (req, res, next) => {
   try {
-    console.log(req.body)
+    console.log(req.body);
     const { name, description, price, image } = req.body;
     const newProduct = new Products({ name, description, price, image });
     if (req.file.filename) {
@@ -119,4 +119,14 @@ export const deleteProduct = async (req, res, next) => {
  * @param {*} res response {json}
  * @param {*} next
  */
-export const searchProduct = () => { }
+export const searchProduct = async (req, res, next) => {
+  try {
+    console.log(req.params);
+    const { query } = req.params;
+    const product = await Products.find({ name: new RegExp(query, "i") });
+    res.json(product);
+  } catch (error) {
+    console.log(error);
+    next();
+  }
+};
