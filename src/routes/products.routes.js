@@ -20,7 +20,7 @@ productsRouter.get("/", getProduct);
 productsRouter.get("/:productId", getProductById);
 
 //? GET product with Query
-productsRouter.post("/:query", searchProduct);
+productsRouter.post("/search/:query", searchProduct);
 
 //? UPDATE product BY ID
 productsRouter.put("/:productId", uploadImage, updateProduct);
