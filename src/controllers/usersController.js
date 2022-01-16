@@ -1,4 +1,5 @@
 import Users from "../models/Users.js";
+import { Jwt } from "jsonwebtoken";
 import Bcrypt from "bcrypt"
 
 
@@ -7,20 +8,21 @@ import Bcrypt from "bcrypt"
 export const addUser = async (req, res) => {
 
   const { name, email, password } = req.body;
-  const newUser = new Users(req.body);
+  const newUser = new Users()
   const saltRounds = 10
-  // console.log(password)
-  //! AL FINAL LO METÍ COMO JSON y no como encoded de los huevos
-  const hashedPassword = await Bcrypt.hash(password, saltRounds)
-  newUser.password = hashedPassword
-  //! FLIPA YA, AWAIT CONSOLE.LOG()!!
-  // await console.log(newUser.password)
+  const hashedPassword = await Bcrypt.hash(password, saltRounds, (err, hash) => {
+    if (err) {
+      console.log(err)
+    }
+    newUser.password = hash
+  })
+
+
 
 
   try {
-    await newUser.save({
-      name, email, hashedPassword
-    })
+    await newUser.save()
+    res.json(newUser)
     res.json({ message: "Added!" });
   } catch (error) {
     console.log(error);
@@ -45,16 +47,14 @@ export const getUsers = async (req, res, next) => {
 // ------------ LOGIN FUNCTION : AUTHENTICATION --------
 
 export const Login = async (req, res, next) => {
-  const { email, password } = req.body
-  const user = await Users.findOne({ email })
-  console.log(email)
-  console.log(password)
+  const user = await Users.findOne({ email: req.body.email })
+
   try {
     if (!user) {
       await res.status(401).json({ message: "This account doesn't exist" })
       next()
     } else {
-      if (!Bcrypt.compareSync(password, user.password)) {
+      if (!Bcrypt.compareSync(req.body.password, user.password)) {
         await res.status(401).json({ message: "Incorrect Password" })
         next()
       }
