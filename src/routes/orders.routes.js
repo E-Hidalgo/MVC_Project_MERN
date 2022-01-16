@@ -6,21 +6,23 @@ import {
   updateOrder,
   deleteOrder,
 } from "../controllers/ordersController";
+import { authUser } from "../middleware/authUser";
+
 const ordersRouter = Router();
 
 //? CREATE NEW order
-ordersRouter.post("/", addOrder);
+ordersRouter.post("/", authUser, addOrder);
 
 //? GET ALL orderS
-ordersRouter.get("/", getOrders);
+ordersRouter.get("/", authUser, getOrders);
 
 //? GET order BY ID
-ordersRouter.get("/:orderId", getOrderById);
+ordersRouter.get("/:orderId", authUser, getOrderById);
 
 //? UPDATE order BY ID
-ordersRouter.put("/:orderId", updateOrder);
+ordersRouter.put("/:orderId", authUser, updateOrder);
 
 //? DELETE order BY ID
-ordersRouter.delete("/:orderId", deleteOrder);
+ordersRouter.delete("/:orderId", authUser, deleteOrder);
 
 export default ordersRouter;
