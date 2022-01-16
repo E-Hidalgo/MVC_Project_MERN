@@ -2,6 +2,7 @@ import express from "express";
 import clientsRouter from "./routes/clients.routes";
 import productsRouter from "./routes/products.routes";
 import ordersRouter from "./routes/orders.routes";
+import usersRouter from "./routes/users.routes";
 import "./DB";
 import { PORT } from "./config";
 import cors from "cors";
@@ -23,6 +24,7 @@ app.use(cors());
 app.use("/api/clients", clientsRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/orders", ordersRouter);
+app.use("/api/users", usersRouter);
 
 //? PUBLIC FOLDER
 app.use(express.static("uploads"));
