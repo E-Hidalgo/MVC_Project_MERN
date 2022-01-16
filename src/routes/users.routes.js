@@ -18,7 +18,7 @@ usersRouter.get("/", getUsers);
 
 // //? GET ALL users
 
-usersRouter.get("/login", Login);
+usersRouter.post("/login", Login);
 
 // //? GET product BY ID
 // usersRouter.get("/:userId", getUserById);

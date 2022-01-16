@@ -1,27 +1,35 @@
 import Users from "../models/Users.js";
 import Bcrypt from "bcrypt"
 
-/**
- * This function add Users to the database
- * @param {*} req request  {body}
- * @param {*} res response {json}
- * @param {*} next
- */
-export const addUser = async (req, res) => {
-  try {
-    console.log(req.body)
-    const { name, email, password } = req.body;
-    const newUser = new Users({ name, email, password });
-    newUser.password = await Bcrypt.hash(req.body.password, String, 12)
-    console.log(newUser.password)
 
-    await newUser.save();
+// ------------ ADDING A NEW USER --------
+
+export const addUser = async (req, res) => {
+
+  const { name, email, password } = req.body;
+  const newUser = new Users(req.body);
+  const saltRounds = 10
+  // console.log(password)
+  //! AL FINAL LO METÍ COMO JSON y no como encoded de los huevos
+  const hashedPassword = await Bcrypt.hash(password, saltRounds)
+  newUser.password = hashedPassword
+  //! FLIPA YA, AWAIT CONSOLE.LOG()!!
+  // await console.log(newUser.password)
+
+
+  try {
+    await newUser.save({
+      name, email, hashedPassword
+    })
     res.json({ message: "Added!" });
   } catch (error) {
     console.log(error);
-
+    res.json({ message: "There was an error!" })
   }
 };
+
+
+// ------------ GETTING ALL USERS --------
 
 export const getUsers = async (req, res, next) => {
   console.log(res)
@@ -34,18 +42,27 @@ export const getUsers = async (req, res, next) => {
   next()
 }
 
-export const Login = async (req, res, next) => {
-  const { email } = req.body
-  const user = await Users.findOne({ email })
+// ------------ LOGIN FUNCTION : AUTHENTICATION --------
 
-  if (!user) {
-    await res.status(401).json({ message: "This account doesn't exist" })
-  } else {
-    if (!Bcrypt.compareSync(password, user.password)) {
-      await res.status(401).json({ message: "Incorrect Password" })
+export const Login = async (req, res, next) => {
+  const { email, password } = req.body
+  const user = await Users.findOne({ email })
+  console.log(email)
+  console.log(password)
+  try {
+    if (!user) {
+      await res.status(401).json({ message: "This account doesn't exist" })
       next()
+    } else {
+      if (!Bcrypt.compareSync(password, user.password)) {
+        await res.status(401).json({ message: "Incorrect Password" })
+        next()
+      }
     }
+  } catch (error) {
+    console.log(error)
   }
+
 }
 
 // /**
