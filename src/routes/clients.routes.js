@@ -6,21 +6,23 @@ import {
   updateClient,
   deleteClient,
 } from "../controllers/clientsController";
+import { authUser } from "../middleware/authUser";
+
 const clientsRouter = Router();
 
 //? CREATE NEW CLIENT
-clientsRouter.post("/", addClient);
+clientsRouter.post("/", authUser, addClient);
 
 //? GET ALL CLIENTS
-clientsRouter.get("/", getClient);
+clientsRouter.get("/", authUser, getClient);
 
 //? GET CLIENT BY ID
-clientsRouter.get("/:clientId", getClientById);
+clientsRouter.get("/:clientId", authUser, getClientById);
 
 //? UPDATE CLIENT BY ID
-clientsRouter.put("/:clientId", updateClient);
+clientsRouter.put("/:clientId", authUser, updateClient);
 
 //? DELETE CLIENT BY ID
-clientsRouter.delete("/:clientId", deleteClient);
+clientsRouter.delete("/:clientId", authUser, deleteClient);
 
 export default clientsRouter;

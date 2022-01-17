@@ -1,47 +1,39 @@
 import Users from "../models/Users.js";
-import { Jwt } from "jsonwebtoken";
-import Bcrypt from "bcryptjs"
+import jwt from "jsonwebtoken";
+import config from "../config";
 
-
-// ------------ ADDING A NEW USER --------
-
+/**
+ * This function add Users to the database
+ * @param {*} req request  {body}
+ * @param {*} res response {json}
+ */
 export const addUser = async (req, res) => {
-
   const { name, email, password } = req.body;
-  const newUser = new Users({
+  console.log(req.body);
+  const user = new Users({
     name,
     email,
-    // ------------ STATIC FUNCTION FROM USERS MODEL -------------
-    password: await Users.encryptPassword(password)
-  })
-
+    password: await Users.encryptPassword(password),
+  });
+  console.log(user);
   try {
-    await newUser.save()
-    res.json({ message: "Added!", newUser });
+    await user.save();
+    res.json(user);
   } catch (error) {
     console.log(error);
-    res.json({ message: "There was an error!" })
+    res.json({ mensaje: "Something went wrong" });
   }
 };
 
-
-// // ------------ GETTING ALL USERS --------
-
-// export const getUsers = async (req, res, next) => {
-//   console.log(res)
-//   try {
-//     const users = await Users.find()
-//     res.json(users)
-//   } catch (error) {
-//     console.log(error)
-//   }
-//   next()
-// }
-
-// ------------ LOGIN FUNCTION : 1º STEP FOR AUTHENTICATION --------
-
-export const Login = async (req, res, next) => {
+/**
+ *
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+export const loginUser = async (req, res, next) => {
   const { email, password } = req.body;
+  console.log(email);
   const userFound = await Users.findOne({ email: email });
   if (!userFound) {
     res.json({ message: "User not found", status: 401 });
@@ -61,4 +53,3 @@ export const Login = async (req, res, next) => {
     }
   }
 };
-

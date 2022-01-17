@@ -8,7 +8,6 @@ import { PORT } from "./config";
 import cors from "cors";
 import morgan from "morgan";
 
-
 //? CREATE SERVER
 const app = express();
 
@@ -18,7 +17,6 @@ app.use(morgan("dev"));
 
 //? CORS
 app.use(cors());
-
 
 //? ROUTES
 app.use("/api/clients", clientsRouter);

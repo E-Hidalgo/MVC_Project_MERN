@@ -1,35 +1,30 @@
 import { Schema, model } from "mongoose";
-import Bcrypt from "bcryptjs"
+import bcrypt from "bcryptjs";
 
 const usersSchema = new Schema({
+  email: {
+    type: String,
+    trim: true,
+    unique: true,
+    lowercase: true,
+  },
   name: {
     type: String,
     trim: true,
   },
-  email: {
-    type: String,
-    unique: true,
-    lowercase: true,
-    trim: true,
-  },
   password: {
     type: String,
-    trim: true,
+    required: true,
   },
 });
 
-// ------------ GEN SALT AND HASH PASSWORD ----------
-
 usersSchema.statics.encryptPassword = async (password) => {
-
-  const salt = await Bcrypt.genSalt(10)
-  return await Bcrypt.hash(password, salt)
-}
-
-// ------------ COMPARE PASSWORDS ----------
-
+  console.log(password);
+  const salt = await bcrypt.genSalt(10);
+  return await bcrypt.hash(password, salt);
+};
 usersSchema.statics.comparePassword = async (password, receivedPassword) => {
-  return await Bcrypt.compare(password, receivedPassword)
-}
+  return await bcrypt.compare(password, receivedPassword);
+};
 
 export default model("Users", usersSchema);
