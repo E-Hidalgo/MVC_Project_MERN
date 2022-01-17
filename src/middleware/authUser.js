@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import config from "../config";
+import config from "../config/index";
 
 export const authUser = (req, res, next) => {
   const authHeader = req.get("Authorization");
@@ -8,7 +8,6 @@ export const authUser = (req, res, next) => {
     error.statusCode = 401;
     throw error;
   }
-
   const token = authHeader.split(" ")[1];
 
   let authToken;

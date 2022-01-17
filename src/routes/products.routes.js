@@ -22,7 +22,7 @@ productsRouter.get("/", authUser, getProduct);
 productsRouter.get("/:productId", authUser, getProductById);
 
 //? GET product with Query
-productsRouter.post("/search/:query", authUser, searchProduct);
+productsRouter.post("/search/:query", searchProduct);
 
 //? UPDATE product BY ID
 productsRouter.put("/:productId", [authUser, uploadImage], updateProduct);
