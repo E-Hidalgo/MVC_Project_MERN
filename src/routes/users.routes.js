@@ -13,8 +13,8 @@ const usersRouter = Router();
 //? CREATE NEW PRODUCT
 usersRouter.post("/new-account", addUser);
 
-//? GET ALL users
-usersRouter.get("/", getUsers);
+// //? GET ALL users
+// usersRouter.get("/", getUsers);
 
 // //? GET ALL users
 
