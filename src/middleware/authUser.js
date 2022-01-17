@@ -3,14 +3,15 @@ import config from "../config";
 
 export const authUser = (req, res, next) => {
   const authHeader = req.get("Authorization");
+  console.log(authHeader);
   if (!authHeader) {
-    const error = new Error("Not authorized, please login");
+    const error = new Error("Unauthorized, please login");
     error.statusCode = 401;
     throw error;
   }
 
   const token = authHeader.split(" ")[1];
-
+  console.log(token);
   let authToken;
   try {
     authToken = jwt.verify(token, config.SECRET);

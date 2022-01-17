@@ -15,7 +15,7 @@ export const addUser = async (req, res) => {
     email,
     password: await Users.encryptPassword(password),
   });
-  console.log(user);
+
   try {
     await user.save();
     res.json(user);
@@ -33,7 +33,6 @@ export const addUser = async (req, res) => {
  */
 export const loginUser = async (req, res, next) => {
   const { email, password } = req.body;
-  console.log(email);
   const userFound = await Users.findOne({ email: email });
   if (!userFound) {
     res.json({ message: "User not found", status: 401 });
